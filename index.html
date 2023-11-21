@@ -40,7 +40,7 @@
 			<el-tabs v-model="activeTab" @tab-click="handleTabClick">
 				<el-tab-pane label="微信接龙" name="wechat">
 					<el-input type="textarea" :rows="17"
-						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员@L1 &#10;2. 球员@L2 &#10;3. 球员 &#10; &#10;&#10;@Lx表示球员Level(重量级)，x取值1到5，1最高、5最低。如果不带@Lx, 默认为L3。可以在微信群名称里预置。 &#10; &#10;分组策略：每组4人，一共4轮分组，每轮所有队伍按重量级由弱到强依次从未分配球员里选择一个最强球员。"
+						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员@L1 &#10;2. 球员@L2 &#10;3. 球员 &#10; &#10;&#10;@Lx表示球员Level(重量级)，x取值1到5，1最高、5最低。如果不带@Lx, 默认为L3。可以在微信群名称里预置。 &#10; &#10;分组策略：每组4人。一共进行4轮选人，每轮所有队伍按已有球员总重量级由弱到强排序，依次从未分配球员里选择一个最强球员。"
 						v-model="wechatInput" @input="parseWechatInput"></el-input>
 					<p>解析出{{parsedPlayers.length}}个球员</p>
 				</el-tab-pane>
@@ -69,7 +69,7 @@
 			<div v-for="(group,index) in groups" :key="group.toString()">
 				<h2>小组{{index+1}}</h2>
 				<el-table :data="group" style="width: 100%">
-					<el-table-column prop="name" label="名字"></el-table-column>
+					<el-table-column prop="name" label="大名"></el-table-column>
 					<el-table-column prop="level" align="right" label="重量级"></el-table-column>
 				</el-table>
 			</div>
