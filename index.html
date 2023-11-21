@@ -75,12 +75,15 @@
 			</div>
 		</div>
 		<div class="button-group">
-			<el-button v-if="activeTab=='fixed'&&!generated" style="width:50%" @click="addPlayer" type="info"
+			<el-button :key="generated" v-if="activeTab=='fixed'&&!generated" style="width:50%" @click="addPlayer" type="primary" plain
 				round>增加球员</el-button>
 			<el-button :key="generated" v-if="!generated" :style="activeTab=='wechat'?'width:100%':'width:50%'"
 				:disabled="parsedPlayers.length==0&&activeTab=='wechat'" @click="generateGroups" type="primary"
 				round>生成分组</el-button>
-			<el-button v-if="generated" style="width:100%" @click="handleReturn" type="primary" round>返回</el-button>
+			<el-button :key="generated" v-if="generated" style="width:100%" @click="handleReturn" type="primary" plain
+				round>返回</el-button>
+			<el-button :key="generated" v-if="generated" style="width:100%" @click="copyToClipboard" type="primary"
+				round>复制到剪贴板</el-button>
 		</div>
 	</div>
 	<script>
@@ -209,6 +212,14 @@
 					groups = groups.filter(group => group.length > 0).sort((a, b) => b.length - a.length);
 					this.groups = groups;
 					this.generated = true
+				},
+				copyToClipboard() {
+					let text = this.groups.map(group => group.map(player => player.name).join('\n')).join('\n========\n');
+					navigator.clipboard.writeText(text).then(() => {
+						this.$message('已复制到剪贴板');
+					}, () => {
+						this.$message('复制失败');
+					});
 				}
 			}
 		});
