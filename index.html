@@ -31,6 +31,10 @@
 			background: white;
 			z-index: 1;
 		}
+
+		.generated-result .el-table__cell {
+			padding: 0;
+		}
 	</style>
 </head>
 
@@ -67,8 +71,8 @@
 		</div>
 		<div v-if="generated" class="display-content">
 			<div v-for="(group,index) in groups" :key="group.toString()">
-				<h2>小组{{index+1}}</h2>
-				<el-table :data="group" style="width: 100%">
+				<h4 style="text-align: center;margin-block-start: 15px;margin-block-end: 5px;">小组{{index+1}}</h4>
+				<el-table :data="group" style="width: 100%" class="generated-result">
 					<el-table-column prop="name" label="大名"></el-table-column>
 					<el-table-column prop="level" align="right" label="重量级"></el-table-column>
 				</el-table>
@@ -80,10 +84,10 @@
 			<el-button :key="generated" v-if="!generated" :style="activeTab=='wechat'?'width:100%':'width:50%'"
 				:disabled="parsedPlayers.length==0&&activeTab=='wechat'" @click="generateGroups" type="primary"
 				round>生成分组</el-button>
-			<el-button :key="generated" v-if="generated" style="width:100%" @click="handleReturn" type="primary" plain
+			<el-button :key="generated" v-if="generated" style="width:100%" @click="handleReturn" type="primary"
 				round>返回</el-button>
-			<el-button :key="generated" v-if="generated" style="width:100%" @click="copyToClipboard" type="primary"
-				round>复制到剪贴板</el-button>
+			<!-- <el-button :key="generated" v-if="generated" style="width:100%" @click="copyToClipboard" type="primary"
+				round>复制到剪贴板</el-button> -->
 		</div>
 	</div>
 	<script>
