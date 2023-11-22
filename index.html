@@ -35,6 +35,15 @@
 		.generated-result .el-table__cell {
 			padding: 0;
 		}
+
+		.pba-preset-table .el-table__cell {
+			padding: 0;
+		}
+
+		.el-select .el-input__inner {
+			border: none;
+			width: 80px;
+		}
 	</style>
 </head>
 
@@ -44,16 +53,16 @@
 			<el-tabs v-model="activeTab" @tab-click="handleTabClick">
 				<el-tab-pane label="微信接龙" name="wechat">
 					<el-input :key="generated" type="textarea" :rows="17"
-						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员@L1 &#10;2. 球员@L2 &#10;3. 球员 &#10; &#10;&#10;@Lx表示球员Level(重量级)，x取值1到5，1最高、5最低。如果不带@Lx, 默认为L3。可以在微信群名称里预置。 &#10; &#10;分组策略：每组4人。一共进行4轮选人，每轮所有队伍按已有球员总重量级由弱到强排序，依次从未分配球员里选择一个最强球员。"
+						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员@L1 &#10;2. 球员@L2 &#10;3. 球员 &#10; &#10;&#10;@Lx表示球员Level(重量级或位置)，x取值1到5，1最低(1号位)、5最高(5号位)。如果不带@Lx, 默认为L3。球员可以在自己微信群名称里预置。 &#10; &#10;分组策略：每组4人。一共进行4轮选人，每轮所有队伍按已有球员总重量级由低到高排序，依次从未分配球员里选择一个重量级最高的球员。"
 						v-model="wechatInput" @input="parseWechatInput"></el-input>
 					<p>解析出{{parsedPlayers.length}}个球员</p>
 				</el-tab-pane>
 				<el-tab-pane label="PBA预置" name="fixed">
-					<el-table :data="players" style="width: 100%">
+					<el-table :data="players" style="width: 100%" class="pba-preset-table">
 						<el-table-column prop="name" label="大名"></el-table-column>
-						<el-table-column prop="level" label="重量级">
+						<el-table-column prop="level" label="重量级" align="center">
 							<template slot-scope="scope">
-								<el-select v-model="scope.row.level" placeholder="请选择">
+								<el-select v-model="scope.row.level" placeholder="请选择" style="border:none">
 									<el-option v-for="item in options" :key="item.value" :label="item.label"
 										:value="item.value">
 									</el-option>
@@ -82,7 +91,7 @@
 			<el-button :key="generated" v-if="activeTab=='fixed'&&!generated" style="width:50%" @click="addPlayer"
 				type="primary" plain round>增加球员</el-button>
 			<el-button :key="generated" v-if="!generated" :style="activeTab=='wechat'?'width:100%':'width:50%'"
-				:disabled="parsedPlayers.length==0&&activeTab=='wechat'" @click="generateGroups" type="primary"
+				:disabled="(parsedPlayers.length<8&&activeTab=='wechat')||participatingPlayersLength<8" @click="generateGroups" type="primary"
 				round>生成分组</el-button>
 			<el-button :key="generated" v-if="generated" style="width:100%" @click="handleReturn" type="primary"
 				round>返回</el-button>
@@ -97,23 +106,23 @@
 				activeTab: 'wechat',
 				wechatInput: '',
 				players: [
-					{ name: 'HuZhe', level: 1, isParticipating: false },
-					{ name: '老包', level: 1, isParticipating: false },
-					{ name: '小江', level: 2, isParticipating: true },
-					{ name: '老蒋', level: 2, isParticipating: true },
-					{ name: 'Michael', level: 2, isParticipating: true },
-					{ name: '彪哥', level: 2, isParticipating: true },
+					{ name: 'HuZhe', level: 5, isParticipating: false },
+					{ name: '老包', level: 5, isParticipating: false },
+					{ name: '小江', level: 4, isParticipating: true },
+					{ name: '老蒋', level: 4, isParticipating: true },
+					{ name: 'Michael', level: 4, isParticipating: true },
+					{ name: '彪哥', level: 4, isParticipating: true },
 					{ name: '科比', level: 3, isParticipating: true },
 					{ name: '何军', level: 3, isParticipating: true },
 					{ name: 'BHT', level: 3, isParticipating: true },
 					{ name: '张韬', level: 3, isParticipating: true },
-					{ name: '老何', level: 4, isParticipating: true },
-					{ name: '老徐', level: 4, isParticipating: true },
-					{ name: '老李', level: 4, isParticipating: true },
-					{ name: '大哥', level: 5, isParticipating: true },
-					{ name: '宏业', level: 5, isParticipating: true },
-					{ name: '何军同事', level: 5, isParticipating: false },
-					{ name: 'HuZhe同学', level: 4, isParticipating: false }
+					{ name: '老何', level: 2, isParticipating: true },
+					{ name: '老徐', level: 2, isParticipating: true },
+					{ name: '老李', level: 2, isParticipating: true },
+					{ name: '大哥', level: 1, isParticipating: true },
+					{ name: '宏业', level: 1, isParticipating: true },
+					{ name: '何军同事', level: 1, isParticipating: false },
+					{ name: 'HuZhe同学', level: 2, isParticipating: false }
 				],
 				parsedPlayers: [],
 				groups: [],
@@ -135,6 +144,11 @@
 				}],
 				newCount: 1,
 				generated: false
+			},
+			computed: {
+				participatingPlayersLength: function () {
+					return this.players.filter(player => player.isParticipating).length
+				}
 			},
 			methods: {
 				handleTabClick(name) {
@@ -180,13 +194,13 @@
 					// 随机打乱数组
 					participatingPlayers.sort(() => Math.random() - 0.5);
 					// 按照新的规则对人员进行排序
-					participatingPlayers.sort((a, b) => a.level - b.level);
+					participatingPlayers.sort((a, b) => b.level - a.level);
 
 					let remainder = [];
 					let remainderCount = participatingPlayers.length % 4;
 					if (remainderCount === 1 || remainderCount === 2) {
 						// 从level是3到5的球员中随机选择参与的人数除以4的余数个人作为remainder
-						let level3to5Players = participatingPlayers.filter(player => player.level >= 2 && player.level <= 5);
+						let level3to5Players = participatingPlayers.filter(player => player.level >= 1 && player.level <= 4);
 						for (let i = 0; i < remainderCount; i++) {
 							let index = Math.floor(Math.random() * level3to5Players.length);
 							remainder.push(level3to5Players.splice(index, 1)[0]);
@@ -206,7 +220,12 @@
 							return totalLevelA - totalLevelB;
 						});
 						// 让当前能力最弱的队伍选择一个剩余球员
-						groups[0].push(participatingPlayers.shift());
+						for (let i = 0; i < groups.length; i++) {
+							if (groups[i].length < 4) {
+								groups[i].push(participatingPlayers.shift());
+								break
+							}
+						}
 					}
 					if (remainder.length > 0) {
 						groups.push(remainder);
