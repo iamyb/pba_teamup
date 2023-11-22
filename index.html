@@ -189,7 +189,7 @@
 				generateGroups() {
 					let participatingPlayers = this.players.filter(player => player.isParticipating);
 					if (this.activeTab == 'wechat') {
-						participatingPlayers = this.parsedPlayers
+						participatingPlayers = JSON.parse(JSON.stringify(this.parsedPlayers))
 					}
 					// 随机打乱数组
 					participatingPlayers.sort(() => Math.random() - 0.5);
