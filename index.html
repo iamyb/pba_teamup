@@ -53,7 +53,7 @@
 			<el-tabs v-model="activeTab" @tab-click="handleTabClick">
 				<el-tab-pane label="微信接龙" name="wechat">
 					<el-input :key="generated" type="textarea" :rows="17"
-						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员L1 &#10;2. 球员L2 &#10;3. 球员 &#10; &#10;&#10;Lx表示球员Level(重量级或位置)，x常规取值1到5，值越大重量级越高（也可对应1号位到5号位），球霸最高可设置到15。如果不带Lx, 默认为L3。球员可以在自己微信群名称里预置。 &#10; &#10;分组策略：每组4人。一共进行多轮选人，每轮所有队伍按已有球员总重量级由低到高排序，总重量级最低的、未满员的队伍从未分配球员里选择一个重量级最高的球员。"
+						placeholder="请直接拷贝粘贴微信接龙： &#10;1. 球员L1 &#10;2. 球员L2 &#10;3. 球员 &#10; &#10;&#10;Lx表示球员Level(重量级或位置)，x常规取值1到5（可对应1号位到5号位），值越大重量级越高，超级巨星最高可设置到15。如果不带Lx, 默认为L3。球员可以在自己微信群名称里预置。 &#10; &#10;分组策略：每组4人。一共进行多轮选人，每轮所有队伍按已有球员总重量级由低到高排序，总重量级最低的、未满员的队伍从未分配球员里选择一个重量级最高的球员。"
 						v-model="wechatInput" @input="parseWechatInput"></el-input>
 					<p v-if="wechatInput" style="text-align: right;">解析出{{parsedPlayers.length}}个球员</p>
 				</el-tab-pane>
