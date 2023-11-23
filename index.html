@@ -224,11 +224,11 @@
             let lines = this.wechatInput.split("\n");
             this.parsedPlayers = lines
               .map((line) => {
-                let match = line.match(/(\d+)\.(.+)L(\d+)/i);
+                let match = line.match(/(\d+)\.\s*([^@]+)\s*(?:@L(\d+)|L(\d+))/i);
                 if (match) {
                   return {
                     name: match[2].trim(),
-                    level: parseInt(match[3], 10),
+                    level: parseInt(match[3]?match[3]:match[4], 10),
                     isParticipating: true,
                   };
                 } else {
