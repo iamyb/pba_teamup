@@ -11,9 +11,11 @@
 
 ## 预览
 
-<div align="center">
-  <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" style="border-radius: 16px !important; box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important; max-width: 100%;">
-</div>
+<p align="center">
+  <kbd>
+    <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" width="600">
+  </kbd>
+</p>
 
 ## 如何使用
 
