@@ -1,4 +1,4 @@
-# 篮球组队系统 (PBA Teamup)
+# 篮球组队 (Teamup)
 
 这是一个简单的篮球组队工具，旨在通过平衡球队的总“重量级”（Level）来快速、公平地进行分组，均衡野球场各队的实力。支持从微信接龙信息直接解析球员列表，并根据球员水平进行智能分配。
 
@@ -12,7 +12,7 @@
 ## 预览
 
 <div align="center">
-  <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); max-width: 100%;">
+  <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" style="border-radius: 16px !important; box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important; max-width: 100%;">
 </div>
 
 ## 如何使用
