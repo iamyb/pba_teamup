@@ -13,7 +13,7 @@
 
 <p align="center">
   <kbd>
-    <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" width="600">
+    <img src="assets/teamup-basketball.png" alt="篮球组队系统截图" width="300">
   </kbd>
 </p>
 
